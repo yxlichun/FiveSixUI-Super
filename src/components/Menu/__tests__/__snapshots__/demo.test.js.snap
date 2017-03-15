@@ -2,12 +2,12 @@ exports[`test Menu demo 1`] = `
 <ul
   className=" wl-menu  wl-menu-root  wl-menu-inline">
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item1
   </li>
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item2
   </li>
@@ -18,26 +18,26 @@ exports[`test Menu demo 2`] = `
 <ul
   className=" wl-menu  wl-menu-root  wl-menu-inline">
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item1
   </li>
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item2
   </li>
   <li
-    className=" wl-menu-submenu  wl-menu-submenu-inline">
+    className="wl-menu-submenu wl-menu-submenu-inline">
     <div
-      className=" wl-menu-submenu-title"
+      className="wl-menu-submenu-title"
       onClick={[Function]}>
       subMenu
     </div>
     <ul
-      className=" wl-menu  wl-menu-sub">
+      className="wl-menu wl-menu-sub">
       <li
-        className=" wl-menu-item  wl-menu-item-selected"
+        className="wl-menu-item wl-menu-item-selected"
         onClick={[Function]}>
         item3
       </li>
@@ -50,33 +50,33 @@ exports[`test Menu demo 3`] = `
 <ul
   className=" wl-menu  wl-menu-root  wl-menu-inline">
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item1
   </li>
   <li
-    className=" wl-menu-item"
+    className="wl-menu-item"
     onClick={[Function]}>
     item2
   </li>
   <li
-    className=" wl-menu-submenu  wl-menu-submenu-inline">
+    className="wl-menu-submenu wl-menu-submenu-inline">
     <div
-      className=" wl-menu-submenu-title"
+      className="wl-menu-submenu-title"
       onClick={[Function]}>
       subMenu
     </div>
     <ul
-      className=" wl-menu  wl-menu-sub">
+      className="wl-menu wl-menu-sub">
       <li
-        className=" wl-menu-item  wl-menu-item-selected"
+        className="wl-menu-item wl-menu-item-selected"
         onClick={[Function]}>
         item3
       </li>
       <li
-        className=" wl-menu-submenu  wl-menu-submenu-inline">
+        className="wl-menu-submenu wl-menu-submenu-inline">
         <div
-          className=" wl-menu-submenu-title"
+          className="wl-menu-submenu-title"
           onClick={[Function]}>
           subMenu2
         </div>

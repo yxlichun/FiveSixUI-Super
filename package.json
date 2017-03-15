@@ -53,6 +53,7 @@
     "react-dev-utils": "^0.5.2",
     "react-test-renderer": "^15.4.2",
     "react-transform-hmr": "^1.0.4",
+    "sinon": "^1.17.7",
     "style-loader": "0.13.1",
     "ts-jest": "18.0.0",
     "ts-loader": "^2.0.1",
@@ -69,7 +70,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "test-all": "sh scripts/test-all.sh"
+    "test-all": "sh scripts/test-all.sh",
+    "updateS": "node scripts/test.js --env=jsdom --updateSnapshot"
   },
   "jest": {
     "collectCoverageFrom": [

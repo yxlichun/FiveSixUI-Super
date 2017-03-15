@@ -22,15 +22,9 @@ export interface MenuProps {
   onClick?: (param: ClickParams) => void;
   onSelect?: (param: SelectParams) => void;
   onOpenChange?: (openKeys: Array<string>) => void;
-
-  // 暂不支持
-  mode?: 'vertical' | 'horizontal' | 'inline'; 
-
-  // 暂不支持
-  multiple?: boolean; 
-
-  // 暂不支持
-  theme?: 'light' | 'dark';
+  mode?: 'vertical' | 'horizontal' | 'inline'; // 暂不支持
+  multiple?: boolean; // 暂不支持
+  theme?: 'light' | 'dark'; // 暂不支持
 }
 
 export interface MenuState {
@@ -112,10 +106,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     // 注意这里className的设置 能够允许用户设置className
     const className = `${this.props.className} ${this.props.prefixCls}`;
-    const { mode, multiple } = this.props;
+    const { mode, multiple, prefixCls } = this.props;
 
     const props = {
-      className,
+      className: prefixCls,
       mode,
       multiple,
       selectedKeys: this.state.selectedKeys,

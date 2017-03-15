@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Menu from '../index.tsx';
+import sinon from 'sinon';
 
 const SubMenu = Menu.SubMenu;
 const Item = Menu.Item;
@@ -140,5 +141,44 @@ describe('Menu', () => {
     expect(wrapper.find('.wl-menu-item')).toHaveLength(4);
     wrapper.setProps({ openKeys: ['subMenu2', 'subMenu1'] });
     expect(wrapper.find('.wl-menu-item')).toHaveLength(5);
+  });
+
+  it('should accept className', () => {
+    const wrapper = mount(
+      <Menu className="test">
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find('.test')).toHaveLength(1);
+  });
+
+  it('select item', () => {
+    const onItemSelect = jest.fn();
+    const wrapper = mount(
+      <Menu onSelect= { onItemSelect } openKeys={['subMenu1']}>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    wrapper.find('.wl-menu-item').at(0).simulate('click');
+    expect(onItemSelect.mock.calls[0][0]).toHaveProperty('key', 'item1');
+    wrapper.find('.wl-menu-item').at(2).simulate('click');
+    expect(onItemSelect.mock.calls[1][0]).toHaveProperty('key', 'item3');
+    expect(onItemSelect.mock.calls[1][0]).toHaveProperty('keyPath', ['subMenu1', 'item3']);
   });
 });
