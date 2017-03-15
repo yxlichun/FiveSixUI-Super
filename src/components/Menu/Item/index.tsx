@@ -10,10 +10,6 @@ export interface ItemProps extends MenuProps {
 }
 
 export default class Item extends React.Component<ItemProps, any> {
-  constructor(props) {
-    super(props);
-  }
-
   getSelectedStatus(key: string, keysArray: Array<string> | undefined) {
     return keysArray ? keysArray.indexOf(key) > -1 : false;
   }
