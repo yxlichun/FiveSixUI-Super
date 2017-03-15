@@ -60,6 +60,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   constructor(props: MenuProps) {
     super(props);
 
+    warning(
+      !('onOpen' in props),
+      '`onOpen` is removed, please use `onOpenChange` instead'
+    );
+
     const state: MenuState = {
       openKeys: props.openKeys || props.defaultOpenKeys || [],
       selectedKeys: props.selectedKeys || props.defaultSelectedKeys || []

@@ -181,4 +181,83 @@ describe('Menu', () => {
     expect(onItemSelect.mock.calls[1][0]).toHaveProperty('key', 'item3');
     expect(onItemSelect.mock.calls[1][0]).toHaveProperty('keyPath', ['subMenu1', 'item3']);
   });
+
+  it('open submenu', () => {
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <Menu onOpenChange= { onOpen }>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find('.wl-menu-submenu')).toHaveLength(2);
+    wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
+    expect(onOpen.mock.calls[0][0]).toEqual(['subMenu1']);
+    wrapper.find('.wl-menu-submenu-title').at(1).simulate('click');
+    expect(onOpen.mock.calls[1][0]).toEqual(['subMenu1', 'subMenu2']);
+  });
+
+  it('close submenu', () => {
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <Menu onOpenChange= { onOpen } defaultOpenKeys={["subMenu1"]}>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
+    expect(onOpen.mock.calls[0][0]).toEqual([]);
+  });
+
+  it('submenu should accept disabled', () => {
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <Menu onOpenChange= { onOpen }>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1" disabled={true}>
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find('.wl-menu-submenu-disabled')).toHaveLength(1);
+    wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
+    expect(onOpen.mock.calls).toEqual([]);
+  });
+
+  it('onOpen warning', () => {
+    const wrapper = mount(
+      <Menu onOpen={'ddd'}>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+
+    wrapper.update();
+  });
 });
