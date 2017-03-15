@@ -71,7 +71,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "test-all": "sh scripts/test-all.sh",
-    "updateS": "node scripts/test.js --env=jsdom --updateSnapshot"
+    "updateS": "node scripts/test.js --env=jsdom --updateSnapshot",
+    "prepub": "node scripts/prepub.js"
   },
   "jest": {
     "collectCoverageFrom": [

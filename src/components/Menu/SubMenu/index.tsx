@@ -28,10 +28,8 @@ export default class SubMenu extends React.Component<SubMenuProps, any> {
     }
     return false;
   }
-  componentWillReceiveProps(nextProps: SubMenuProps) {
-    
-  }
-  handleClick(open:boolean) {
+
+  handleClick(open: boolean) {
     const { disabled, onOpenChange, itemKey, openKeys } = this.props;
     if (disabled) return;
 
@@ -50,6 +48,7 @@ export default class SubMenu extends React.Component<SubMenuProps, any> {
   addKeyPath(info: SubMenuProps) {
     return (info.keyPath || []).concat(info.itemKey);
   }
+
   render() {
     const { selectedKeys, itemKey, className, disabled, onClick, onSelect, onOpenChange, title, mode, openKeys, multiple } = this.props;
 
@@ -64,8 +63,8 @@ export default class SubMenu extends React.Component<SubMenuProps, any> {
       multiple,
       keyPath: this.addKeyPath(this.props)
     }
-    const basicClassName = `${className}-submenu`;
-    const open = this.getOpenStatus(itemKey, openKeys);
+    const basicClassName:string = `${className}-submenu`;
+    const open:boolean = this.getOpenStatus(itemKey, openKeys);
 
     return (
       <li 

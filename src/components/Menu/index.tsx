@@ -6,8 +6,6 @@ import SubMenu from './SubMenu';
 import warning from '../_util/warning';
 import { getClassName, getKeyFromNode } from '../_util/common';
 
-import './style/index.less';
-
 /**
  * 【命名标准】组件名+Props
  */
@@ -71,6 +69,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
     this.state = state;
   }
+
   componentWillReceiveProps(nextProps: MenuProps) {
     let state: MenuState = {};
     if ('selectedKeys' in nextProps) {
@@ -81,10 +80,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
     this.setState(state);
   }
+
   handleClick = (params: ClickParams) => {
     const { onClick } = this.props;
     onClick && onClick(params)
   }
+
   handleSelect = (param: SelectParams) => {
     const { onSelect } = this.props;
     const selectedKeys = this.state.selectedKeys;
@@ -99,6 +100,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
     onSelect && onSelect(param);
   }
+
   handleOpen = (openKeys: Array<string>) => {
     const { onOpenChange } = this.props;
 
@@ -108,9 +110,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     
     onOpenChange && onOpenChange(openKeys);
   }
+
   render() {
     // 注意这里className的设置 能够允许用户设置className
-    const className = `${this.props.className} ${this.props.prefixCls}`;
+    const className: string = `${this.props.className} ${this.props.prefixCls}`;
     const { mode, multiple, prefixCls } = this.props;
 
     const props = {

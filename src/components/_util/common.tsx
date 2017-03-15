@@ -10,8 +10,8 @@ export interface ComponentStatus {
  * @param prefix 
  * @param index 
  */
-export function getKeyFromNode(node: React.ReactElement<any>, prefix: string = '', index) {
-  return node.key || `${prefix}_${index}`;
+export function getKeyFromNode(node: React.ReactElement<any>, prefix: string = '', index): string {
+  return node.key ? (node.key + '') : `${prefix}_${index}`;
 }
 
 /**
@@ -19,7 +19,7 @@ export function getKeyFromNode(node: React.ReactElement<any>, prefix: string = '
  * @param basic 
  * @param status 
  */
-export function getClassName(basic: string | undefined, status: ComponentStatus) {
+export function getClassName(basic: string | undefined, status: ComponentStatus): string {
   let className = [basic];
   for (let key in status) {
     if (status[key] === true) {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
 import Menu from './components/Menu/index.tsx';
+import './App.css';
+import './components/Menu/style/index.tsx';
 
 const SubMenu = Menu.SubMenu;
 class App extends Component {

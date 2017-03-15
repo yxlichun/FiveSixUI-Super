@@ -10,10 +10,15 @@ export interface ItemProps extends MenuProps {
 }
 
 export default class Item extends React.Component<ItemProps, any> {
+  constructor(props:ItemProps) {
+    super(props);
+  }
+
   getSelectedStatus(key: string, keysArray: Array<string> | undefined) {
     return keysArray ? keysArray.indexOf(key) > -1 : false;
   }
-  handleClick(e) {
+
+  handleClick(e:any) {
     const { disabled, onClick, itemKey, onSelect, selectedKeys, multiple } = this.props;
     if (disabled) return;
 
@@ -36,12 +41,14 @@ export default class Item extends React.Component<ItemProps, any> {
     onClick && onClick(clickParams);
     onSelect && onSelect(selectParams);
   }
+
   addKeyPath(info: ItemProps) {
     return (info.keyPath || []).concat(info.itemKey);
   }
+
   render() {
     const { selectedKeys, itemKey, className, disabled, onClick } = this.props;
-    const selected = this.getSelectedStatus(itemKey, selectedKeys);
+    const selected: boolean = this.getSelectedStatus(itemKey, selectedKeys);
 
     return (
       <li 
