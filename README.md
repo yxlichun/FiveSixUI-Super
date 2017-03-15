@@ -1,3 +1,6 @@
+[![](https://travis-ci.org/yxlichun/FiveSixUI-Super.svg?branch=master)](https://travis-ci.org/yxlichun/FiveSixUI-Super)
+[![Coverage Status](https://coveralls.io/repos/github/yxlichun/FiveSixUI-Super/badge.svg?branch=master)](https://coveralls.io/github/yxlichun/FiveSixUI-Super?branch=master)
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
