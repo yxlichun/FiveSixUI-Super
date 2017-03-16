@@ -6,7 +6,11 @@ import sinon from 'sinon';
 const SubMenu = Menu.SubMenu;
 const Item = Menu.Item;
 
+// 测试覆盖率只能表明你测到了，但并不能保证所有情形你都测到了
+
 describe('Menu', () => {
+  // step1. test custom use
+  // 此时列举常见场景，可使用shallow的方式查看正常使用方式的正确性；
   it('test custom use for: 1-level-menu', () => {
     const wrapper = shallow(
       <Menu>
@@ -24,10 +28,14 @@ describe('Menu', () => {
           <Item key="1">menu</Item>
           <Item key="2">menu2</Item>
         </SubMenu>
+        <SubMenu>
+          <Item key="3">menu</Item>
+          <Item key="4">menu2</Item>
+        </SubMenu>
       </Menu>
     );
-    expect(wrapper.find(SubMenu)).toHaveLength(1);
-    expect(wrapper.find(Item)).toHaveLength(2);
+    expect(wrapper.find(SubMenu)).toHaveLength(2);
+    expect(wrapper.find(Item)).toHaveLength(4);
   });
 
   it('test custom use for: mixed-menu', () => {
@@ -44,7 +52,9 @@ describe('Menu', () => {
     expect(wrapper.find(Item)).toHaveLength(3);
   });
 
-  it('test special structure', () => {
+  // step2. test special use
+  // 此时列举极端使用场景，使异常情形下不至于出现不可收敛的错误；
+  it('test special use for special structure', () => {
     const wrapper = mount(
       <Menu mode="horizontal">
         <SubMenu title="submenu">
@@ -53,11 +63,11 @@ describe('Menu', () => {
         </SubMenu>
       </Menu>
     );
-
-    wrapper.update();
+    expect(wrapper.find(SubMenu)).toHaveLength(1);
+    expect(wrapper.find(Item)).toHaveLength(0);
   })
 
-  it('test special structure: Multilayer nesting', () => {
+  it('test special use for multilayer nesting', () => {
     const wrapper = mount(
       <Menu selectedKeys={['item3']} defaultSelectedKeys={['item1']} defaultOpenKeys={['subMenu']}>
         <Menu.Item key="item1">item1</Menu.Item>
@@ -80,8 +90,36 @@ describe('Menu', () => {
 
     wrapper.update();
   })
-  it('should accept defaultSelectedKeys', () => {
-    const wrapper = mount( // 渲染出来 必须使用mount
+
+  it('test special use for wrong props', () => {
+    const wrapper = mount(
+      <Menu mode="horizontal" selectedKeys={['item3']} defaultSelectedKeys={['item1']} defaultOpenKeys={['subMenu2']}>
+        <SubMenu title="submenu">
+          <Menu.Item key="1">menu1</Menu.Item>
+          <Menu.Item key="2">menu2</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find(SubMenu)).toHaveLength(1);
+    expect(wrapper.find(Item)).toHaveLength(0);
+  })
+
+  // step3. test props 
+  // 逐个测试传入属性，并尽可能的测试多种情形，此时需渲染出来进行测试，需使用mount；
+  // 可参考测试路线：无、有（正常值、异常值）、搭配
+  it('test props: defaultSelectedKeys', () => {
+    let wrapper = mount( // 渲染出来 必须使用mount
+      <Menu>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <Menu.Item key="item3">item3</Menu.Item>
+      </Menu>
+    );
+    // 无
+    expect(wrapper.find('.wl-menu-item-selected')).toHaveLength(0);
+
+    // 有：正常值
+    wrapper = mount( // 渲染出来 必须使用mount
       <Menu defaultSelectedKeys={['item1']}>
         <Menu.Item key="item1">item1</Menu.Item>
         <Menu.Item key="item2">item2</Menu.Item>
@@ -89,10 +127,19 @@ describe('Menu', () => {
       </Menu>
     );
     expect(wrapper.find('.wl-menu-item').at(0).hasClass('wl-menu-item-selected')).toBe(true);
-    expect(wrapper.find('.wl-menu-item').at(1).hasClass('wl-menu-item-selected')).toBe(false);
+
+    // 有：异常值
+    wrapper = mount( // 渲染出来 必须使用mount
+      <Menu defdefaultSelectedKeys={null}>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <Menu.Item key="item3">item3</Menu.Item>
+      </Menu>
+    );
+    expect(wrapper.find('.wl-menu-item-selected')).toHaveLength(0);
   });
 
-  it('should accept selectedKeys', () => {
+  it('test props: selectedKeys', () => {
     const wrapper = mount(
       <Menu selectedKeys={['item3']} defaultOpenKeys={['subMenu']}>
         <Menu.Item key="item1">item1</Menu.Item>
@@ -105,7 +152,7 @@ describe('Menu', () => {
     expect(wrapper.find('.wl-menu-item').at(2).hasClass('wl-menu-item-selected')).toBe(true);
   });
 
-  it('should accept selectedKeys (the selectedKeys prop should higher than defaultSelectedKeys)', () => {
+  it('test props: selectedKeys (the selectedKeys prop should higher than defaultSelectedKeys)', () => {
     const wrapper = mount(
       <Menu selectedKeys={['item3']} defaultSelectedKeys={['item1']} defaultOpenKeys={['subMenu']}>
         <Menu.Item key="item1">item1</Menu.Item>
@@ -117,9 +164,13 @@ describe('Menu', () => {
     );
     expect(wrapper.find('.wl-menu-item').at(2).hasClass('wl-menu-item-selected')).toBe(true);
     expect(wrapper.find('.wl-menu-item').at(0).hasClass('wl-menu-item-selected')).toBe(false);
+
+    wrapper.setProps({selectedKeys: ["item1"]});
+    expect(wrapper.find('.wl-menu-item').at(2).hasClass('wl-menu-item-selected')).toBe(false);
+    expect(wrapper.find('.wl-menu-item').at(0).hasClass('wl-menu-item-selected')).toBe(true);
   });
 
-  it('should accept defaultOpenKeys', () => {
+  it('test props: defaultOpenKeys、openKeys', () => {
     const wrapper = mount(
       <Menu defaultOpenKeys={['subMenu1']}>
         <Menu.Item key="item1">item1</Menu.Item>
@@ -143,7 +194,7 @@ describe('Menu', () => {
     expect(wrapper.find('.wl-menu-item')).toHaveLength(5);
   });
 
-  it('should accept className', () => {
+  it('test props: className', () => {
     const wrapper = mount(
       <Menu className="test">
         <Menu.Item key="item1">item1</Menu.Item>
@@ -160,7 +211,48 @@ describe('Menu', () => {
     expect(wrapper.find('.test')).toHaveLength(1);
   });
 
-  it('select item', () => {
+  it('test props: disabled (SubMenu)', () => {
+    const onOpen = jest.fn();
+    const wrapper = mount(
+      <Menu onOpenChange= { onOpen }>
+        <Menu.Item key="item1">item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1" disabled={true}>
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find('.wl-menu-submenu-disabled')).toHaveLength(1);
+    wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
+    expect(onOpen.mock.calls).toEqual([]);
+  });
+
+  it('test props: disabled (Item)', () => {
+    const onSelect = jest.fn();
+    const wrapper = mount(
+      <Menu onSelect= { onSelect }>
+        <Menu.Item key="item1" disabled={true}>item1</Menu.Item>
+        <Menu.Item key="item2">item2</Menu.Item>
+        <SubMenu title="subMenu1" key="subMenu1">
+          <Menu.Item key="item3">item3</Menu.Item>
+        </SubMenu>
+        <SubMenu title="subMenu2" key="subMenu2">
+          <Menu.Item key="item4">item4</Menu.Item>
+          <Menu.Item key="item5">item5</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
+    expect(wrapper.find('.wl-menu-item-disabled')).toHaveLength(1);
+    wrapper.find(Item).at(0).simulate('click');
+    expect(onSelect.mock.calls).toEqual([]);
+  });
+  // step4. test action props
+  // 测试传入事件，事件是否正确触发，触发参数是否正常？
+  it('test action: onSelect (select item)', () => {
     const onItemSelect = jest.fn();
     const wrapper = mount(
       <Menu onSelect= { onItemSelect } openKeys={['subMenu1']}>
@@ -182,7 +274,7 @@ describe('Menu', () => {
     expect(onItemSelect.mock.calls[1][0]).toHaveProperty('keyPath', ['subMenu1', 'item3']);
   });
 
-  it('open submenu', () => {
+  it('test action: onOpenChange (open submenu)', () => {
     const onOpen = jest.fn();
     const wrapper = mount(
       <Menu onOpenChange= { onOpen }>
@@ -204,7 +296,7 @@ describe('Menu', () => {
     expect(onOpen.mock.calls[1][0]).toEqual(['subMenu1', 'subMenu2']);
   });
 
-  it('close submenu', () => {
+  it('test action: onOpenChange (close submenu)', () => {
     const onOpen = jest.fn();
     const wrapper = mount(
       <Menu onOpenChange= { onOpen } defaultOpenKeys={["subMenu1"]}>
@@ -222,14 +314,15 @@ describe('Menu', () => {
     wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
     expect(onOpen.mock.calls[0][0]).toEqual([]);
   });
-
-  it('submenu should accept disabled', () => {
-    const onOpen = jest.fn();
+  // step5. test user interaction
+  // 模拟用户操作顺序，进行相关属性的行为测试
+  it('test user interaction: click selected item', () => {
+    const onItemSelect = jest.fn();
     const wrapper = mount(
-      <Menu onOpenChange= { onOpen }>
+      <Menu onSelect= { onItemSelect } openKeys={['subMenu1']} selectedKeys={['item1']}>
         <Menu.Item key="item1">item1</Menu.Item>
         <Menu.Item key="item2">item2</Menu.Item>
-        <SubMenu title="subMenu1" key="subMenu1" disabled={true}>
+        <SubMenu title="subMenu1" key="subMenu1">
           <Menu.Item key="item3">item3</Menu.Item>
         </SubMenu>
         <SubMenu title="subMenu2" key="subMenu2">
@@ -238,11 +331,11 @@ describe('Menu', () => {
         </SubMenu>
       </Menu>
     );
-    expect(wrapper.find('.wl-menu-submenu-disabled')).toHaveLength(1);
-    wrapper.find('.wl-menu-submenu-title').at(0).simulate('click');
-    expect(onOpen.mock.calls).toEqual([]);
+    wrapper.find(Item).at(0).simulate('click');
+    expect(onItemSelect.mock.calls).toEqual([]);
   });
-
+  // step6. test additional
+  // 测试一些其他相关函数
   it('onOpen warning', () => {
     const wrapper = mount(
       <Menu onOpen={'ddd'}>
