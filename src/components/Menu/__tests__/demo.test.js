@@ -2,6 +2,9 @@ import React from 'react';
 import Menu from '..';
 import renderer from 'react-test-renderer';
 
+// 简陋版GUI测试
+// 在最开始需要撰写简单的应用场景，在开发、迭代时会提示对界面的更改，以确保更改是符合预期的
+
 const SubMenu = Menu.SubMenu;
 
 test('Menu demo', () => {

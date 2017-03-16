@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import Menu from './components/Menu/index.tsx';
 import './App.css';
-import './components/Menu/style/index.tsx';
+import './components/Menu/style/index.less';
 
 const SubMenu = Menu.SubMenu;
 class App extends Component {
