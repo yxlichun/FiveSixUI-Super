@@ -6,7 +6,24 @@ import sinon from 'sinon';
 const SubMenu = Menu.SubMenu;
 const Item = Menu.Item;
 
-// 测试覆盖率只能表明你测到了，但并不能保证所有情形你都测到了
+// 测试覆盖率只能表明你测到了，但并不能保证所有情形你都测到了，因此使用以下情形对测试case进行约束
+// 以下为大致的测试步骤，使用渐进的顺序，为TDD做准备
+
+// step1. test custom use 
+//        正常场景测试，主要测试是否会报错，倾向使用shallow以加快测试速度；
+// step2. test special use 
+//        特殊、异常使用场景测试，主要测试是否会报错；
+// step3. test props
+//        普通属性测试，按照属性维度，测试正常值、异常值表现是否符合预期，此时测试更追求正确性，注意使用setProps函数对组件的表现进行动态跟踪；
+// step4. test action props
+//        事件属性测试，使用mock的方式，考察动作函数是否正常触发、触发时机、触发参数等是否符合预期
+// step5. test user interaction
+//        用户行为测试，模拟用户动作，如多次点击、重复操作等；
+// step6. test func
+//        纯函数测试
+// step7. test additional
+//        其他补充测试
+
 
 describe('Menu', () => {
   // step1. test custom use

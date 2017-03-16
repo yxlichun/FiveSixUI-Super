@@ -24,7 +24,9 @@ export interface MenuProps {
   multiple?: boolean; // 暂不支持
   theme?: 'light' | 'dark'; // 暂不支持
 }
-
+/**
+ * 【命名标准】组件名+State
+ */
 export interface MenuState {
   selectedKeys?: Array<string>;
   openKeys?: Array<string>;
@@ -54,7 +56,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     theme: 'light',
     mode: 'inline'
   }
-
+  /**
+   * 所有函数输入，均需显式定义传入类型
+   * @param props 
+   */
   constructor(props: MenuProps) {
     super(props);
 
